@@ -91,23 +91,6 @@ gulp.task \build-and-watch:components:scripts, (done) ->
         -> emit-with-delay \build-start
         -> emit-with-delay \build-complete
 
-gulp.task \build:src:styles, ->
-    gulp.src <[./src/*.styl]>
-    .pipe gulp-stylus {use: nib!, import: <[nib]>, compress: config.gulp.minify, "include css": true}
-    .pipe gulp.dest \./src
-    .on \end, -> emit-with-delay \build-complete if !!io
-
-gulp.task \watch:src:styles, -> 
-    gulp.watch <[./src/*.styl]>, <[build:src:styles]>
-
-gulp.task \build:src:scripts, ->
-    gulp.src <[./src/*.ls]>
-    .pipe gulp-livescript!
-    .pipe gulp.dest './src'
-
-gulp.task \watch:src:scripts, ->
-    gulp.watch <[./src/*.ls]>, <[build:src:scripts]>
-
 gulp.task \dev:server, ->
     if !!config?.gulp?.reload-port
         io := (require \socket.io)!
@@ -129,9 +112,7 @@ gulp.task \coverage, ->
         .pipe write-reports!
         .on \finish, -> process.exit!
 
-gulp.task \build:src, <[build:src:styles build:src:scripts]>
-gulp.task \watch:src, <[watch:src:styles watch:src:scripts]>
-gulp.task \build:components, <[build:components:styles build:components:scripts]>
+gulp.task \build, <[build:components:styles build:components:scripts]>
 gulp.task \default, -> run-sequence do 
     <[
         build:src 
