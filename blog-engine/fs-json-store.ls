@@ -1,5 +1,5 @@
 fs = require 'fs'
-{find, find-index} = require 'prelude-ls'
+{find, find-index, reverse} = require 'prelude-ls'
 {promises:{from-error-value-callback, bind-p, return-p}} = require 'async-ls'
 
 # s = (require "./fs-json-store.ls") {file-name: '../store.json'}
@@ -17,7 +17,7 @@ module.exports = ({file-name}) ->
             # empty / fresh storage
             return-p []
         else 
-            return-p (JSON.parse content)
+            return-p (JSON.parse content |> reverse)
 
     save = (posts) ->
         (from-error-value-callback fs.write-file) file-name, (JSON.stringify posts, null, 4), 'utf8'

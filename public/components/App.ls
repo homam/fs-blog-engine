@@ -43,6 +43,6 @@ render do
             name: \app
             path: \/
             component: App
-            # IndexRoute component: (require \./NormalRoute.ls)
+            IndexRoute component: (require \./IndexRoute.ls)
             Route name: \normal, path: \/normal component: (require \./NormalRoute.ls)
     document.get-element-by-id \mount-node
