@@ -9,3 +9,4 @@ rough
 coverage/
 node_modules/
 config.ls
+store.json
