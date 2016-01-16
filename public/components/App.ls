@@ -18,7 +18,7 @@ App = create-class do
             # MENU
             div null,
                 Link to: \/normal, \normal
-                Link to: \/beta, \beta
+                Link to: \/edit/127272, \edit
 
             # DISTRIBS
             div null,
@@ -45,4 +45,5 @@ render do
             component: App
             IndexRoute component: (require \./IndexRoute.ls)
             Route name: \normal, path: \/normal component: (require \./NormalRoute.ls)
+            Route name: \edit, path: "/edit/:postid" component: (require \./EditRoute.ls)
     document.get-element-by-id \mount-node

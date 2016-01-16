@@ -17,7 +17,7 @@ module.exports = ({file-name}) ->
             # empty / fresh storage
             return-p []
         else 
-            return-p (JSON.parse content |> reverse)
+            return-p (JSON.parse content)
 
     save = (posts) ->
         (from-error-value-callback fs.write-file) file-name, (JSON.stringify posts, null, 4), 'utf8'
@@ -74,4 +74,4 @@ module.exports = ({file-name}) ->
 
             return-p old-post
 
-    all-posts: all-posts
+    all-posts: -> all-posts! `bind-p` reverse

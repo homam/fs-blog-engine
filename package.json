@@ -37,6 +37,7 @@
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "gulp-nodemon": "^2.0.6",
+    "moment": "^2.11.1",
     "prelude-extension": "0.0.8",
     "prelude-ls": "^1.1.1",
     "react": "^0.14.6",

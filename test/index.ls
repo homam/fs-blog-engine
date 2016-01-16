@@ -3,6 +3,10 @@ routes = require '../routes.ls'
 {find, last} = require 'prelude-ls'
 {promises:{from-error-value-callback, bind-p, return-p}} = require 'async-ls'
 
+wait = (ms) -> new Promise (resolve) ->
+    <- set-timeout _, ms
+    resolve!
+
 describe 'routes', ->
     specify 'duck must return an array of random numbers with the size of many', -> new Promise (resolve, reject) ->
         handler = routes {} |> find (.0 == '/api/randoms') |> last
@@ -73,6 +77,31 @@ describe 'fs-json-storage', ->
             assert !!it, "newly updated post was not found in the dataset: \n#{JSON.stringify post}"
             assert it._id == post._id, "get failed to retrieve a newly updated post with the expected _id of #{post._id}"
             assert it.body == post.body, "post faield to update \nOld: #{post.body} \nNew: #{it.body}"
+
+    specify 'updating a post must maintain its index', ->
+        
+        store = new-store!
+
+        # post1
+        <- bind-p add store
+        <- bind-p wait 20
+
+        # post2
+        post2 <- bind-p add store
+        <- bind-p wait 20
+
+        # post3
+        <- bind-p add store
+
+        updated-body = "updated body"
+        post2.body = updated-body
+
+        _ <- bind-p store.update post2
+
+        posts <- bind-p store.all-posts!
+
+        assert posts[1].body == updated-body,  
+            "posts order changed after an update, second item must have been updated\n#{JSON.stringify posts, null, 2}"
 
     specify 'deleting a post', ->
         

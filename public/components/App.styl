@@ -1,5 +1,37 @@
-body
-	padding: 0
-	margin: 0
-	font-family: Georgia
-	font-size: 200%
+body, body *
+    padding: 0
+    margin: 0
+    font-family: Georgia, Serif
+    font-size: 1em
+
+article
+    h2
+        display: inline-block
+    a.edit
+        padding-left: 1em
+        font-size: 60%
+
+div.editor
+    input, textarea
+        width: 100%
+        padding: 0.2em
+        margin: 0 auto 0.5em 0
+        display: inline-block
+    textarea.header
+        height: 120px
+    textarea.body
+        height: 240px
+
+button
+    padding: 0.2em 1em
+    cursor: pointer
+
+div.message
+    margin: 1em 5px
+    padding: 0.5em
+    border: solid 1px black
+
+    &.success
+        border-color: green
+    &.error
+        border-color: red

@@ -1,8 +1,9 @@
-{create-class, create-factory, DOM:{div, button, input, textarea, form}}:React = require \react
+{create-class, create-factory, DOM:{div, button, input, textarea, form, h2, p}}:React = require \react
 {find-DOM-node} = require \react-dom
-{map} = require 'prelude-ls'
+{map, empty} = require 'prelude-ls'
 Post = create-factory require './Post.ls'
 NewPost = create-factory require './NewPost.ls'
+store = (require '../store.ls')!
 
 module.exports = create-class do
 
@@ -11,23 +12,37 @@ module.exports = create-class do
     # render :: a -> ReactElement
     render: ->
         div null, 
-            button do
-                ref: \myb
-                on-click: ~> fetch '/api/randoms?many=500' .then (.json!) .then ~> @set-state {data: it.data}
-                "refresh"
-            @state.posts |> map (post) -> div key: post._id, Post {post}
-            div null, NewPost {
-                post: @state.new-post
-                on-new-post: ~>
-                    fetch '/api/all' .then (.json!) .then ~> @set-state {posts: it}
-            }
+            if empty @state.posts   
+                then div null, 
+                    h2 class-name: 'welcome', "Welcome to your fresh empty blog!" 
+                else @state.posts |> map (post) -> div key: post._id, Post {post}
+            div do 
+                null
+                h2 null, 'New Post'
+                NewPost do
+                    post: @state.new-post
+                    on-change: (pc) ~>
+                        new-post = @state.new-post
+                        @set-state new-post: new-post <<< pc
+
+                button do 
+                    type: 'button'
+                    on-click: ~>
+                        store.add @state.new-post
+                            .then ~>
+                                window.scroll-to window.scroll-x, 0
+                                store.all!.then ~> @set-state {posts: it}
+                            .catch (ex) ->
+                                alert "Error occurred \n#{ex}"
+                    "Post"
 
     # get-initial-state :: a -> UIState
     get-initial-state: -> 
         {
             posts: []
+            new-post: {}
         }
 
     # component-did-mount :: a -> Void
     component-did-mount: !->
-        fetch '/api/all' .then (.json!) .then ~> @set-state {posts: it}
+        store.all!.then ~> @set-state {posts: it}
