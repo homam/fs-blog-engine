@@ -1,7 +1,7 @@
 require! \../../config.ls
-{clone-element, create-class, create-factory, DOM:{div}}:React = require \react
-{render} = require \react-dom
-require! \react-router
+{clone-element, create-class, create-factory, DOM:{div}}:React = require 'react'
+{render} = require 'react-dom'
+require! 'react-router'
 Router = create-factory react-router.Router
 Route = create-factory react-router.Route
 IndexRoute = create-factory react-router.IndexRoute
@@ -13,14 +13,8 @@ App = create-class do
 
     # render :: a -> ReactElement
     render: ->
-        div null,
+        div class-name: 'app',
 
-            # MENU
-            div null,
-                Link to: \/normal, \normal
-                Link to: \/edit/127272, \edit
-
-            # DISTRIBS
             div null,
                 @props.children
 
@@ -31,6 +25,7 @@ App = create-class do
 
     # component-did-mount :: a -> Void
     component-will-mount: !->
+        # gulp auto-reload used during development
         if !!config?.gulp?.reload-port
             (require \socket.io-client) "http://localhost:#{config.gulp.reload-port}"
                 ..on \build-start, ~> @set-state building: true
@@ -44,6 +39,5 @@ render do
             path: \/
             component: App
             IndexRoute component: (require \./IndexRoute.ls)
-            Route name: \normal, path: \/normal component: (require \./NormalRoute.ls)
             Route name: \edit, path: "/edit/:postid" component: (require \./EditRoute.ls)
     document.get-element-by-id \mount-node

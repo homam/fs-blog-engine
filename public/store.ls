@@ -49,3 +49,20 @@ module.exports = ->
                 reject res.error-context
         .catch -> 
             reject "Network error"
+
+    remove: (postid) -> new Promise (resolve, reject) ->
+        fetch "/api/delete/#{postid}", {
+            method: 'post'
+            headers:
+                'Accept': 'application/json'
+                'Content-Type': 'application/json'
+            
+            body: ''
+        }
+        .then (-> ok = it.ok; it.json!.then (res) -> [ok, res]) .then ([ok, res]) ~> 
+            if ok
+                resolve res
+            else
+                reject res.error-context
+        .catch -> 
+            reject "Network error"

@@ -8,7 +8,7 @@ module.exports = ({store}) ->
     validate = (blog) -> new Promise (resolve, reject) ->
 
         # check for the existence of String properties
-        missing-prop = ["header", "title", "body"] |> find (p) -> !blog[p]
+        missing-prop = ["title", "header", "body"] |> find (p) -> !blog[p]
         if !!missing-prop
             reject "#{missing-prop} cannot be empty"
         else
@@ -29,5 +29,8 @@ module.exports = ({store}) ->
     update: (blog) ->
         <- bind-p validate blog
         store.update blog
+
+    remove: (_id) ->
+        store.remove _id
 
     all: store.all-posts

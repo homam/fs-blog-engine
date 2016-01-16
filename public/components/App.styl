@@ -1,15 +1,36 @@
-body, body *
+body 
     padding: 0
     margin: 0
+    background-color: black
+
+body, body *
     font-family: Georgia, Serif
     font-size: 1em
 
+div.app
+    width: 90%
+    margin: 1em auto 
+    padding: 1em
+    background-color: white
+    border-radius: 1em
+
 article
+    margin: 0 auto 2em auto
+    padding: 0 0 2em 0
+    border-bottom: solid 1px silver
     h2
         display: inline-block
+        margin: 0 0 1ex 0
+        font-size: 200%
     a.edit
         padding-left: 1em
         font-size: 60%
+        &:before
+            content: '['
+        &:after
+            content: ']'
+    section.body
+        line-height: 3ex
 
 div.editor
     input, textarea
@@ -17,10 +38,20 @@ div.editor
         padding: 0.2em
         margin: 0 auto 0.5em 0
         display: inline-block
+    
     textarea.header
         height: 120px
+    
     textarea.body
         height: 240px
+
+    .controls
+        margin: 1em 0 0 0
+        text-align: right
+
+        button
+            width: 100px
+            margin-left 1em
 
 button
     padding: 0.2em 1em
@@ -35,3 +66,36 @@ div.message
         border-color: green
     &.error
         border-color: red
+
+
+.dialog-overlay
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-color: rgba(192, 192, 192, 0.5)
+    z-index: 99
+
+.dialog
+    width: 300px
+    height: 70px
+    position: fixed
+    top: 20% 
+    left: 50%
+    padding: 1em
+    margin-left: calc(-150px - 1em)
+    background-color: black
+    color: white
+    border-radius: 5px
+    z-index: 100
+
+    .controls
+        margin: 1em 0 0 0
+        padding 1em 0 0 0
+        text-align: right
+        border-top: solid 1px silver
+
+        button
+            width: 100px
+            margin-left 1em

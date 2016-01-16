@@ -11,13 +11,6 @@ static-routes = ["/", "/edit/:postid"] |> map (r) -> [r, 'get', r, (req, res) ->
 module.exports = ->
     static-routes ++ [
 
-        #TODO: remove this route
-        * '/api/randoms', 'get', '/api/randoms', (req, res) -> 
-            how-many = parse-int req.query.many
-            res.send {
-                data: [1 to how-many] |> map (-> Math.random!)
-            }
-
         * '/api/all', 'get', '/api/all', (req, res) ->
             service.all!
                 .then -> res.send it
@@ -46,5 +39,12 @@ module.exports = ->
                 .then -> res.send it
                 .catch ->
                     console.error "/api/update", it
+                    res.status 500 .send {error: true, errorContext: it.toString!}
+
+        * '/api/delete', 'post', '/api/delete/:postid', (req, res) ->
+            service.remove (parse-int req.params.postid)
+                .then -> res.send it
+                .catch -> 
+                    console.error "/api/delete", it
                     res.status 500 .send {error: true, errorContext: it.toString!}
     ]

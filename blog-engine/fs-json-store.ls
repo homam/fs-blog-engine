@@ -2,11 +2,9 @@ fs = require 'fs'
 {find, find-index, reverse} = require 'prelude-ls'
 {promises:{from-error-value-callback, bind-p, return-p}} = require 'async-ls'
 
-# s = (require "./fs-json-store.ls") {file-name: '../store.json'}
-# s.allPosts.catch (-> console.log "Error: #it") .then (-> console.log it)
 
-# this storage adds these three fields to each item it store:
-# _id :: TimeStamp (unique)
+# this storage adds three fields to each item it store:
+# _id :: Integer (unique)
 # _date-created :: TimeStamp
 # _date-last-updated :: TimeStamp
 module.exports = ({file-name}) ->
@@ -40,6 +38,7 @@ module.exports = ({file-name}) ->
     # get :: ID -> Promise Post
     get: get
 
+    # update :: Post -> Promise Post
     update: (post) ->
         posts <- bind-p all-posts!
         index = posts |> find-index (p) -> p._id == post._id
@@ -58,7 +57,7 @@ module.exports = ({file-name}) ->
 
             return-p updated-post
 
-
+    # remove :: PostID (Integer) -> Promise Post
     remove: (_id) ->
 
         posts <- bind-p all-posts!

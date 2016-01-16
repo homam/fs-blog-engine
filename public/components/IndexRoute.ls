@@ -2,7 +2,7 @@
 {find-DOM-node} = require \react-dom
 {map, empty} = require 'prelude-ls'
 Post = create-factory require './Post.ls'
-NewPost = create-factory require './NewPost.ls'
+Editor = create-factory <| (require './NewOrUpdatePost.ls').NewPostEditor
 store = (require '../store.ls')!
 
 module.exports = create-class do
@@ -19,28 +19,15 @@ module.exports = create-class do
             div do 
                 null
                 h2 null, 'New Post'
-                NewPost do
-                    post: @state.new-post
-                    on-change: (pc) ~>
-                        new-post = @state.new-post
-                        @set-state new-post: new-post <<< pc
+                Editor on-posted: ~>
+                    window.scroll-to window.scroll-x, 0
+                    store.all!.then ~> @set-state {posts: it}
 
-                button do 
-                    type: 'button'
-                    on-click: ~>
-                        store.add @state.new-post
-                            .then ~>
-                                window.scroll-to window.scroll-x, 0
-                                store.all!.then ~> @set-state {posts: it}
-                            .catch (ex) ->
-                                alert "Error occurred \n#{ex}"
-                    "Post"
 
     # get-initial-state :: a -> UIState
     get-initial-state: -> 
         {
             posts: []
-            new-post: {}
         }
 
     # component-did-mount :: a -> Void
