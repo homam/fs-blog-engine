@@ -12,7 +12,7 @@ module.exports = create-class do
         
         article class-name: 'post', 
             
-            div null
+            div class-name: 'title',
                 h2 null, title
                 Link class-name: 'edit' to: "/edit/#{post._id}", 'Edit'
             
