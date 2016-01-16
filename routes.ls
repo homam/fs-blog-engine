@@ -25,7 +25,6 @@ module.exports = ->
                     console.error "/api/get", it
                     res.status 500 .send {error: true, errorContext: it.toString!}
 
-
         # curl --data 'title=Title&header=Header&body=Body' localhost:8600/api/new
         * '/api/new', 'post', '/api/new', (req, res) ->
             service.add req.body
@@ -46,5 +45,12 @@ module.exports = ->
                 .then -> res.send it
                 .catch -> 
                     console.error "/api/delete", it
+                    res.status 500 .send {error: true, errorContext: it.toString!}
+
+        * '/api/restore', 'post', '/api/restore', (req, res) ->
+            service.restore req.body
+                .then -> res.send it
+                .catch ->
+                    console.error "/api/restore", it
                     res.status 500 .send {error: true, errorContext: it.toString!}
     ]

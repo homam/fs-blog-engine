@@ -73,7 +73,7 @@ create-component = (is-new) ->
                                         @set-state {
                                             message: 
                                                 success: false
-                                                text: "All fields are mandatory. Please fill #{missing-prop}."
+                                                text: "All fields are mandatory. Please fill the #{missing-prop} field."
                                                 field: missing-prop
                                         }
                                     else
@@ -104,12 +104,36 @@ create-component = (is-new) ->
                     div class-name: "message #{if @state.message.success then 'success' else 'error'}", 
                         div null, @state.message.text
                         
-                        # provide a link to home only if action was successful
                         if @state.message.success
-                            Link do 
-                                to: '/', on-click: ~>
-                                    @set-state message: null
-                                'Back to home'
+                            div class-name: 'controls', 
+                                
+                                # provide a link to home only if action was successful
+                                Link do 
+                                    to: '/'
+                                    on-click: ~> @set-state message: null
+                                    'Back to home'
+
+                                if @state.deleted
+                                    a do 
+                                        href: 'javascript: void(0)'
+                                        on-click: ~>
+                                            store.restore @state.post
+                                                .then ~>
+                                                    @set-state {
+                                                        # post: if is-new then {} else it
+                                                        message: 
+                                                            success: true
+                                                            text: 'This post was resrored.'
+                                                        deleting: false
+                                                        deleted: false
+                                                    }
+                                                .catch ~>
+                                                    @set-state {
+                                                        message: 
+                                                            success: false
+                                                            text: "Error: #{it}"
+                                                    }
+                                        'Restore'
 
                         # provide a link to focus on the missing-prop field
                         else if !!@state.message.field
@@ -117,6 +141,7 @@ create-component = (is-new) ->
                                 href: 'javascript: void(0)', on-click: ~>
                                     @refs.newpost.refs[@state.message.field].focus!
                                 'Fix it'
+
 
 
         # get-initial-state :: a -> UIState

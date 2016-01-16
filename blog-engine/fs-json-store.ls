@@ -1,5 +1,5 @@
 fs = require 'fs'
-{find, find-index, reverse} = require 'prelude-ls'
+{find, find-index, reverse, partition} = require 'prelude-ls'
 {promises:{from-error-value-callback, bind-p, return-p}} = require 'async-ls'
 
 
@@ -24,6 +24,8 @@ module.exports = ({file-name}) ->
         posts <- bind-p all-posts!
         return-p <| posts |> find (p) -> p._id == _id
         
+    # public interface:
+    
     # add :: Post -> Promise Post
     add: (post) ->
         now = new Date!.value-of! 
@@ -72,5 +74,22 @@ module.exports = ({file-name}) ->
             <- bind-p save posts
 
             return-p old-post
+
+    insert: (post) ->
+        
+        old-post <- bind-p get post._id
+
+        if !!old-post
+            Promise.reject "A Post with the same _id already exists. _id: #{post._id} (insert)"
+        else
+            posts <- bind-p all-posts!
+
+            [before, after] = posts |> partition (p) -> p._id < post._id
+
+            before.push post
+                
+            <- bind-p save (before ++ after)
+
+            return-p post
 
     all-posts: -> all-posts! `bind-p` reverse

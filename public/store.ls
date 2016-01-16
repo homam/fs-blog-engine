@@ -66,3 +66,20 @@ module.exports = ->
                 reject res.error-context
         .catch -> 
             reject "Network error"
+
+    restore: (post) -> new Promise (resolve, reject) ->
+        fetch '/api/restore', {
+            method: 'post'
+            headers:
+                'Accept': 'application/json'
+                'Content-Type': 'application/json'
+            
+            body: JSON.stringify post
+        }
+        .then (-> ok = it.ok; it.json!.then (res) -> [ok, res]) .then ([ok, res]) ~> 
+            if ok
+                resolve res
+            else
+                reject res.error-context
+        .catch -> 
+            reject "Network error"

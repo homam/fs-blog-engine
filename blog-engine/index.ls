@@ -14,6 +14,8 @@ module.exports = ({store}) ->
         else
             resolve blog
 
+    # public interface:
+    
     add: (blog) ->
         <- bind-p validate blog
         store.add blog
@@ -32,5 +34,8 @@ module.exports = ({store}) ->
 
     remove: (_id) ->
         store.remove _id
+
+    restore: (blog) ->
+        store.insert blog
 
     all: store.all-posts

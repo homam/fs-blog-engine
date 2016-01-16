@@ -7,19 +7,19 @@ wait = (ms) -> new Promise (resolve) ->
     <- set-timeout _, ms
     resolve!
 
-describe 'routes', ->
-    specify 'duck must return an array of random numbers with the size of many', -> new Promise (resolve, reject) ->
-        handler = routes {} |> find (.0 == '/api/randoms') |> last
-        req = {query: many: '500'}
-        res = {
-            send: (json) -> 
-                if json.data.length == 500
-                    resolve null
-                else
-                    reject "{data} with data.length == 500 expected, instead got: \n#{JSON.stringify json}"
-        }
+# describe 'routes', ->
+#     specify 'duck must return an array of random numbers with the size of many', -> new Promise (resolve, reject) ->
+#         handler = routes {} |> find (.0 == '/api/randoms') |> last
+#         req = {query: many: '500'}
+#         res = {
+#             send: (json) -> 
+#                 if json.data.length == 500
+#                     resolve null
+#                 else
+#                     reject "{data} with data.length == 500 expected, instead got: \n#{JSON.stringify json}"
+#         }
 
-        handler req, res
+#         handler req, res
 
 
 
@@ -35,8 +35,8 @@ describe 'fs-json-storage', ->
     new-store = ->
         (require "../blog-engine/fs-json-store.ls") {file-name}
 
-    add = (store) ->
-        store.add {title: 'first-post', author: 'homam',  header: 'header', body: 'body'} 
+    add = (store, title = 'first-post') ->
+        store.add {title: title, author: 'homam',  header: 'header', body: 'body'} 
 
     specify 'a fresh dataset must be empty', ->
         new-store!.all-posts! .then -> 
@@ -115,6 +115,26 @@ describe 'fs-json-storage', ->
 
         store.all-posts! .then -> 
             assert it.length == 0, "dataset is not empty"
+
+    specify 'inserting a post', ->
+
+        store = new-store!
+
+        post1 <- bind-p add store, 'first'
+        <- bind-p wait 10
+        post2 <- bind-p add store, 'second'
+        <- bind-p wait 10
+        post3 <- bind-p add store, 'third'
+        <- bind-p wait 10
+
+        deleted-post <- bind-p store.remove post2._id
+
+        _ <- bind-p store.insert deleted-post
+
+        posts <- bind-p store.all-posts! 
+        
+        assert posts.length == 3, "post was not inserted"
+        assert posts[1]._id == post2._id, "post was not inserted at the correct index"
 
 
 
