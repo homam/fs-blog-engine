@@ -36,6 +36,7 @@
   "dependencies": {
     "async-ls": "0.0.3",
     "body-parser": "^1.14.2",
+    "browserify": "^13.0.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "gulp-nodemon": "^2.0.6",
