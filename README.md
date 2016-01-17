@@ -12,18 +12,21 @@ gulp
 
 # Technology Choices
 
-* LiveScript
-** String formatting similar to Perl
-** FP
-** Object extension and merge operator `<<<`
-** Bound functions `~>`
-* async-ls
-** Promises are Monads
+## LiveScript
+* String interpolation similar to Perl
+* Functional Programming style (ideal for React)
+* Object extension and merge operator `<<<`
+* Bound functions `~>`
+
+# async-ls
+ES6 Promises function similar to Monads.
+
+I developed [https://github.com/homam/async-ls](async-ls) with a funcionality similar to [https://github.com/caolan/async](Async.js) but more suitable for FP programming with LiveScript and (Lazy) Promises.
 
 
 # Scalability
 
-* Dependency Injection (store)
+* Dependency Injection (Storage)
 * React Stateless Reusable Component
 
 

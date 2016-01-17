@@ -19,6 +19,9 @@ module.exports = create-class do
             div null, 
                 span null, (moment post._date-created).from!
             
+            section class-name: 'header', 
+                ReactMarkdown source: header, soft-break: 'br'
+
             section class-name: 'body', 
                 ReactMarkdown source: body, soft-break: 'br'
 
