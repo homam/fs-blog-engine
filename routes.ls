@@ -7,50 +7,50 @@ service = (require "./blog-engine/index.ls") {store}
 
 static-routes = ["/", "/edit/:postid"] |> map (r) -> [r, 'get', r, (req, res) -> res.render 'public/index.html']
 
+api-call = (res, route, f) ->
+    f!
+    .then -> res.send it
+    .catch -> 
+        console.error route, it
+        res.status 500 .send {error: true, errorContext: it.toString!}
+
+make-route = (verb, path, f) ->
+    * path, verb, path, (req, res) ->
+        api-call res, path, -> (f req)
+
+# these routes can be called by curl:
+# curl --data 'title=Title&header=Header&body=Body' localhost:8600/api/new
+
 # inject mockable dependencies here:
-module.exports = ->
+module.exports = ({on-change}) ->
     static-routes ++ [
 
-        * '/api/all', 'get', '/api/all', (req, res) ->
-            service.all!
-                .then -> res.send it
-                .catch -> 
-                    console.error "/api/all", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
+        * make-route 'get', '/api/all', service.all
 
-        * '/api/get', 'get', '/api/get/:postid', (req, res) ->
+        * make-route 'get', '/api/get/:postid', (req) ->
             service.get (parse-int req.params.postid)
-                .then -> res.send it
-                .catch -> 
-                    console.error "/api/get", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
 
-        # curl --data 'title=Title&header=Header&body=Body' localhost:8600/api/new
-        * '/api/new', 'post', '/api/new', (req, res) ->
+        * make-route 'post', '/api/new', (req) ->
             service.add req.body
-                .then -> res.send it
-                .catch ->
-                    console.error "/api/new", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
 
-        * '/api/update', 'post', '/api/update', (req, res) ->
+        * make-route 'post', '/api/update', (req) ->
             service.update req.body
-                .then -> res.send it
-                .catch ->
-                    console.error "/api/update", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
 
-        * '/api/delete', 'post', '/api/delete/:postid', (req, res) ->
+        * make-route 'post', '/api/delete/:postid', (req) ->
             service.remove (parse-int req.params.postid)
-                .then -> res.send it
-                .catch -> 
-                    console.error "/api/delete", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
 
-        * '/api/restore', 'post', '/api/restore', (req, res) ->
+        * make-route 'post', '/api/restore', (req) ->
             service.restore req.body
-                .then -> res.send it
-                .catch ->
-                    console.error "/api/restore", it
-                    res.status 500 .send {error: true, errorContext: it.toString!}
+
+        # * '/api/new', 'post', '/api/new', (req, res) ->
+        #     api-call res, '/api/new', -> service.add req.body
+
+        # * '/api/update', 'post', '/api/update', (req, res) ->
+        #     api-call res, '/api/update', -> service.update req.body
+
+        # * '/api/delete', 'post', '/api/delete/:postid', (req, res) ->
+        #     api-call res, '/api/delete', -> service.remove (parse-int req.params.postid)
+
+        # * '/api/restore', 'post', '/api/restore', (req, res) ->
+        #     api-call res, '/api/restore', -> service.restore req.body
     ]

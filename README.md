@@ -4,6 +4,7 @@
 # Execute the Program
 
 ```
+nvm use 5.3.0 
 npm install
 npm configure
 gulp
@@ -12,7 +13,7 @@ gulp
 # Technology Choices
 
 * LiveScript
-** String formatting similar to Swift
+** String formatting similar to Perl
 ** FP
 ** Object extension and merge operator `<<<`
 ** Bound functions `~>`

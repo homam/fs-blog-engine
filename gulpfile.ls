@@ -103,7 +103,7 @@ gulp.task \dev:server, ->
         script: \./server.ls
 
 gulp.task \coverage, ->
-    gulp.src <[./routes.ls]> # files which we want coverage report
+    gulp.src <[./blog-engine/fs-json-store.ls]> # files which we want coverage report
     .pipe instrument!
     .pipe hook-require!
     .on \finish, ->
