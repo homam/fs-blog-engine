@@ -8,7 +8,7 @@
     "coverage": "gulp coverage",
     "coveralls": "gulp coverage  && cat coverage/lcov.info | coveralls",
     "configure": "touch store.json && cp config.ls.template config.ls",
-    "postinstall": "gulp build",
+    "postinstall": "gulp build && npm run configure",
     "start": "./node_modules/livescript/bin/lsc server.ls"
   },
   "author": "",
