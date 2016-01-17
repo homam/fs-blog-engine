@@ -15,5 +15,6 @@ app = express!
 (require \./routes) {}
     |> each ([, method]:route) -> app[method].apply app, route.slice 2
 
+http-port := process.env.PORT ? http-port
 app.listen http-port
 console.log "Started listening on port #{http-port}"
