@@ -33,3 +33,10 @@ module.exports = create-class do
     # component-did-mount :: a -> Void
     component-did-mount: !->
         store.all!.then ~> @set-state {posts: it}
+
+        @socket = (require \socket.io-client) force-new: true
+            .on 'all-posts', (all-posts) ~>
+                @set-state posts: all-posts
+
+    component-will-unmount: !->
+        @socket.destroy!

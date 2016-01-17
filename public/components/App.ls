@@ -43,7 +43,3 @@ render do
     document.get-element-by-id \mount-node
 
 
-host = location.origin.replace /^http/, 'ws'
-ws = new WebSocket host
-ws.onmessage = (event) ->
-  console.log (JSON.parse event.data)
