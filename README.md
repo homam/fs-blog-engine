@@ -23,7 +23,7 @@ $ gulp
 
 The program is written entirely in [LiveScript](http://livescript.net/), which is a descendent of CoffeeScript and compiles to ES5.
 
-LiveScript makes the devleopment of Node / React apps easy and fast because of:
+LiveScript makes the development of Node / React apps easy and fast because of:
 
 * String interpolation similar to Perl
 * Functional Programming style (ideal for React with immutable data)
@@ -34,7 +34,7 @@ LiveScript makes the devleopment of Node / React apps easy and fast because of:
 ## async-ls
 ES6 Promises are similar to Monads in FP.
 
-I developed [async-ls](https://github.com/homam/async-ls) with a similar funcionality to [Async.js](https://github.com/caolan/async). async-ls is more suitable for FP programming with LiveScript and (Lazy) Promises.
+I developed [async-ls](https://github.com/homam/async-ls) with a similar functionality to [Async.js](https://github.com/caolan/async). async-ls is more suitable for FP programming with LiveScript and (Lazy) Promises.
 
 
 # Scalability
