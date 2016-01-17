@@ -2,6 +2,7 @@ require! 'whatwg-fetch'
 
 
 # helper function for making GET or POST requests to the API
+# GET requests have a body = null
 fetch1 = (path, body = null) -> new Promise (resolve, reject) ->
     fetch do 
         path

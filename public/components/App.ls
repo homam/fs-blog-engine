@@ -9,7 +9,7 @@ Link = create-factory react-router.Link
 
 App = create-class do
 
-    display-name: \App
+    display-name: 'App'
 
     # render :: a -> ReactElement
     render: ->
@@ -18,7 +18,7 @@ App = create-class do
             div null,
                 @props.children
 
-            div {class-name: \building}, \Building... if @state.building
+            div {class-name: 'building'}, 'Building...' if @state.building
 
     # get-initial-state :: a -> UIState
     get-initial-state: -> building: false
@@ -27,19 +27,19 @@ App = create-class do
     component-will-mount: !->
         # gulp auto-reload used during development
         if !!config?.gulp?.reload-port
-            (require \socket.io-client) "http://localhost:#{config.gulp.reload-port}"
-                ..on \build-start, ~> @set-state building: true
-                ..on \build-complete, -> window.location.reload!
+            (require 'socket.io-client') "http://localhost:#{config.gulp.reload-port}"
+                ..on 'build-start', ~> @set-state building: true
+                ..on 'build-complete', -> window.location.reload!
 
 render do 
     Router do 
         history: react-router.browser-history
         Route do 
-            name: \app
-            path: \/
+            name: 'app'
+            path: '/'
             component: App
-            IndexRoute component: (require \./IndexRoute.ls)
-            Route name: \edit, path: "/edit/:postid" component: (require \./EditRoute.ls)
-    document.get-element-by-id \mount-node
+            IndexRoute component: (require './IndexRoute.ls')
+            Route name: 'edit', path: '/edit/:postid' component: (require './EditRoute.ls')
+    document.get-element-by-id 'mount-node'
 
 

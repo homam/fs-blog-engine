@@ -7,7 +7,7 @@
     "test": "mocha test/index.ls --compilers ls:livescript",
     "coverage": "gulp coverage",
     "coveralls": "gulp coverage  && cat coverage/lcov.info | coveralls",
-    "configure": "touch store.json && cp config.ls.template config.ls",
+    "configure": "node ./initialize.js && cp config.ls.template config.ls",
     "postinstall": "npm run configure && gulp build",
     "start": "./node_modules/livescript/bin/lsc server.ls"
   },

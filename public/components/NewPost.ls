@@ -1,5 +1,6 @@
 # stateless component that provides basic functionality for editing a blog @Post@
 # the blog @Post@ that is being edited must be provided in @props@
+# props :: {post :: {title, header, body}}
 
 {create-class, create-factory, DOM:{div, button, input, textarea, form}}:React = require 'react'
 {find-DOM-node} = require 'react-dom'

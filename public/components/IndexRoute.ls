@@ -32,8 +32,11 @@ module.exports = create-class do
 
     # component-did-mount :: a -> Void
     component-did-mount: !->
+
+        # get all the posts
         store.all!.then ~> @set-state {posts: it}
 
+        # listen to changes and re-render the posts on any change
         @socket = (require \socket.io-client) force-new: true
             .on 'all-posts', (all-posts) ~>
                 @set-state posts: all-posts
