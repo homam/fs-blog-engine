@@ -1,8 +1,8 @@
 require! 'body-parser'
-{http-port}:config = require './config'
 http = require 'http'
 require! 'express'
 {map, each} = require 'prelude-ls'
+{http-port}:config = require './config'
 http-port := process.env.PORT ? http-port
 
 

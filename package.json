@@ -1,7 +1,7 @@
 {
-  "name": "react-server-cool",
+  "name": "fs-blog-engine",
   "version": "0.0.1",
-  "description": "react is cool",
+  "description": "Symple Blog Engine with FS Storage",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha test/index.ls --compilers ls:livescript",
