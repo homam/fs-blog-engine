@@ -12,6 +12,10 @@ app = express!
     ..set 'view engine', 'ejs'
     ..use body-parser.json!
     ..use body-parser.urlencoded {extended: false}
+    ..use (req, res, next) ->
+        # CORS
+        res.set \Access-Control-Allow-Origin, \*
+        next!
     ..use '/node_modules', express.static "#__dirname/node_modules"
     ..use '/public', express.static "#__dirname/public"
 
