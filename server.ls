@@ -15,6 +15,7 @@ app = express!
     ..use (req, res, next) ->
         # CORS
         res.set \Access-Control-Allow-Origin, \*
+        res.set \Access-Control-Allow-Headers, \*
         next!
     ..use '/node_modules', express.static "#__dirname/node_modules"
     ..use '/public', express.static "#__dirname/public"
