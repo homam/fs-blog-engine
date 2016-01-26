@@ -14,8 +14,15 @@ app = express!
     ..use body-parser.urlencoded {extended: false}
     ..use (req, res, next) ->
         # CORS
+
+        cors = (header) ->
+            if !!req[header]
+                res.set header, req[header
+
         res.set \Access-Control-Allow-Origin, \*
-        res.set \Access-Control-Allow-Headers, \*
+        cors 'Access-Control-Allow-Headers'
+        cors 'Access-Control-Request-Method'
+
         next!
     ..use '/node_modules', express.static "#__dirname/node_modules"
     ..use '/public', express.static "#__dirname/public"
