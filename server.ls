@@ -16,8 +16,8 @@ app = express!
         # CORS
 
         cors = (header) ->
-            if !!req[header]
-                res.set header, req[header]
+            if !!req.headers[header]
+                res.set header, req.headers[header]
 
         res.set \Access-Control-Allow-Origin, \*
         cors 'Access-Control-Allow-Headers'
