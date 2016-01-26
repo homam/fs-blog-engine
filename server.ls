@@ -15,13 +15,10 @@ app = express!
     ..use (req, res, next) ->
         # CORS
 
-        cors = (header) ->
-            if !!req.headers[header]
-                res.set header, req.headers[header]
-
         res.set \Access-Control-Allow-Origin, \*
-        cors 'Access-Control-Allow-Headers'
-        cors 'Access-Control-Request-Method'
+        res.set \Access-Control-Allow-Methods, 'POST, GET, OPTIONS'
+        if !!req.headers['Access-Control-Request-Headers'.toLowerCase!]
+            res.set \Access-Control-Allow-Headers, req.headers['Access-Control-Request-Headers'.toLowerCase!]
 
         next!
     ..use '/node_modules', express.static "#__dirname/node_modules"
